@@ -1,0 +1,32 @@
+name: Deploy to Lambda
+
+on:
+  push:
+    branches:
+      - main # Change this to the branch you want to trigger the deployment
+
+jobs:
+  deploy:
+    name: Deploy Python code to Lambda
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+    
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+    
+    - name: Deploy to Lambda
+      run: |
+        aws lambda update-function-code --function-name YOUR_LAMBDA_FUNCTION_NAME --zip-file fileb://./lambda_package.zip
+      env:
+        AWS_ACCESS_KEY_ID: AKIAU6GD2OJE6QOWD4OP
+        AWS_SECRET_ACCESS_KEY: ayXYJ6DjAMEOYj5qAWzQf94D1C4RNg7gIvqnsKWt
+        AWS_DEFAULT_REGION: us-east-1
